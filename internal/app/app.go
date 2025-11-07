@@ -5,30 +5,27 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/Masachusets/cit_go/config"
 	"github.com/go-chi/chi/v5"
 )
 
-var (
-	serverAddr = "localhost:4000"
-)
-
-func Run(ctx context.Context) error {
+func Run(ctx context.Context, cfg *config.Config, logger *slog.Logger) error {
 	router := chi.NewRouter()
 	
 	server := http.Server{
-		Addr: serverAddr,
+		Addr: cfg.Server.Host + ":" + cfg.Server.Port,
 		Handler: router,
 	}
 
 	go func() {
 		<-ctx.Done()
-		slog.Info("shutting down server")
+		logger.Info("shutting down server")
 		server.Shutdown(ctx)
 	}()
 
-	slog.Info(
+	logger.Info(
 		"starting server", 
-		slog.String("addr", serverAddr),
+		slog.String("addr", server.Addr),
 	)
 
 	if err := server.ListenAndServe(); err != nil {

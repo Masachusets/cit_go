@@ -15,7 +15,7 @@ func SetupLogger(debug bool, logLevel string, logFormat string) *slog.Logger {
 	if debug {
 		level = slog.LevelDebug
 	} else {
-		level = getSlogLevel(logLevel)
+		level = getLogLevel(logLevel)
 	}
 
 	var handler slog.Handler
@@ -33,7 +33,7 @@ func SetupLogger(debug bool, logLevel string, logFormat string) *slog.Logger {
 	return log
 }
 
-func getSlogLevel(level string) slog.Level {
+func getLogLevel(level string) slog.Level {
 	switch strings.ToLower(level) {
 	case "debug":
 		return slog.LevelDebug
