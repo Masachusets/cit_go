@@ -21,6 +21,7 @@ type server struct {
 	Host            string        `koanf:"host"`
 	ReadTimeout     time.Duration `koanf:"read_timeout"`
 	WriteTimeout    time.Duration `koanf:"write_timeout"`
+	IdleTimeout     time.Duration `koanf:"idle_timeout"`
 	ShutdownTimeout time.Duration `koanf:"shutdown_timeout"`
 }
 
