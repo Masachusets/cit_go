@@ -3,11 +3,10 @@ package app
 import (
 	"context"
 	"log/slog"
-	"net/http"
 
 	"github.com/Masachusets/cit_go/config"
 	"github.com/Masachusets/cit_go/internal/adapter/postgres"
-	"github.com/go-chi/chi/v5"
+	"github.com/Masachusets/cit_go/internal/server"
 )
 
 func Run(ctx context.Context, cfg *config.Config, logger *slog.Logger) error {
@@ -29,12 +28,7 @@ func Run(ctx context.Context, cfg *config.Config, logger *slog.Logger) error {
 
 	logger.Info("DB Postgres is connected")
 	
-	router := chi.NewRouter()
-	
-	server := http.Server{
-		Addr: cfg.Server.Host + ":" + cfg.Server.Port,
-		Handler: router,
-	}
+	server := server.NewServer(ctx, cfg, logger, pgPool)
 
 	go func() {
 		<-ctx.Done()

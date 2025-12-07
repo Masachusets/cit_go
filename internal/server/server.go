@@ -13,6 +13,7 @@ type Server struct {
 	adrress string
 	logger  *slog.Logger
 	db      *pgxpool.Pool
+	cfg     *config.Config
 }
 
 func NewServer(ctx context.Context, cfg *config.Config, log *slog.Logger, pgpool *pgxpool.Pool) *http.Server {
@@ -20,6 +21,7 @@ func NewServer(ctx context.Context, cfg *config.Config, log *slog.Logger, pgpool
 		adrress: cfg.Server.Host + ":" + cfg.Server.Port,
 		logger:  log,
 		db:      pgpool,
+		cfg: cfg,
 	}
 
 	return &http.Server{
